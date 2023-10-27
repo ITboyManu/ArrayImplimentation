@@ -33,9 +33,14 @@ class CustomAdapter(
         return itemlist.size
     }
 
-    public fun addItem(item:Item){
+    fun addItem(item:Item){
         itemlist.add(item)
         notifyDataSetChanged()
+    }
+
+    fun updateItem(position: Int,item:Item){
+        itemlist[position] = item
+        notifyItemChanged(position)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

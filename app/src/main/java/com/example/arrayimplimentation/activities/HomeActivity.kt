@@ -52,7 +52,9 @@ class HomeActivity : AppCompatActivity(), InterfaceClickCallBack, View.OnClickLi
             etAge.setText(selectedItem.age)
 
             modify.setOnClickListener{
-
+                val addItem = Item(etName.text.toString().trim(), etAge.text.toString().trim(), false)
+                adapter.updateItem(position,addItem)
+                dailog.dismiss()
             }
 
             cancel.setOnClickListener {

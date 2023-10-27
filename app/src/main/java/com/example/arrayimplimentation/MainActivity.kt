@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity(), CheckInterface, CustomDialogue {
 
 
         binding.add.setOnClickListener {
-            var editname = binding.name.text.toString()
-            var editage = binding.age.text
+            var editname = binding.name.text.toString().trim()
+            var editage = binding.age.text.toString().trim()
 
             if (editname.isNotEmpty() && editage.isNotEmpty()) {
                 val addItem = Item(editname, editage, isSelected = false)
