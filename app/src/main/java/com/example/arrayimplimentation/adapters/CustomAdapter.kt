@@ -1,34 +1,31 @@
-package com.example.arrayimplimentation
+package com.example.arrayimplimentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.arrayimplimentation.Item
+import com.example.arrayimplimentation.R
+import com.example.arrayimplimentation.interfaces.InterfaceClickCallBack
 
 
-class Myadapter(
+class CustomAdapter(
     var context: Context,
     private var itemlist: ArrayList<Item>,
-    private var checkInterface: CheckInterface,
-    private var customDialogue: CustomDialogue
-) : RecyclerView.Adapter<Myadapter.ViewHolder>() {
-    val selectedItems = HashSet<Item>()
+    private var interfaceClickCallBack: InterfaceClickCallBack
+) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         var name: TextView = itemView.findViewById(R.id.textname)
         var age = itemView.findViewById<TextView>(R.id.textage)
         var checkbox = itemView.findViewById<CheckBox>(R.id.checkedbox)
-        var btn = itemView.findViewById<Button>(R.id.delete)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
         return ViewHolder(view)
     }
 
@@ -36,24 +33,19 @@ class Myadapter(
         return itemlist.size
     }
 
+    public fun addItem(item:Item){
+        itemlist.add(item)
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var data = itemlist[position]
+        val data = itemlist[position]
         holder.name.text = data.name
         holder.age.text = data.age.toString()
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkInterface.checkInterface(position)
-                itemlist.removeAt(position)
+                interfaceClickCallBack.onClickCallBack(data, position, "select")
             }
-
-            holder.checkbox.isSelected = data.isSelected
-        }
-
-        //open dialog box on item click
-        holder.itemView.setOnClickListener {
-            customDialogue.customDialogue(context)
-
-
         }
     }
 }
